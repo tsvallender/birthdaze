@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    birthdaze (0.0.1)
+      carddav
+      thor
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    carddav (0.1.0)
+      curb
+      nokogiri
+      vcardigan
+    curb (1.0.5)
+    nokogiri (1.16.2-x86_64-linux)
+      racc (~> 1.4)
+    racc (1.7.3)
+    thor (1.3.1)
+    vcardigan (0.0.9)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  birthdaze!
+
+BUNDLED WITH
+   2.4.10
