@@ -6,8 +6,8 @@ require "yaml"
 class Birthdaze < Thor
   desc "generate", "Generate calendars"
   def generate
-    puts "Generate calendars"
-    puts calendar.inspect
+    puts "Writing ical file to #{config['ical_output']}"
+    File.open(config["ical_output"], 'w') { |file| file.write(calendar.to_ical) }
   end
 
   desc "list", "List birthdays"
@@ -90,11 +90,7 @@ class Birthdaze < Thor
   end
 
   def summary(name, birthday)
-    return "#{name}’s birthday" if birthday.start_with?("-") || birthday.start_with?("1604")
-
-    birth_year = birthday[0..3].to_i
-    age = Date.today.year - birth_year + 1
-    "🎂 #{name}’s #{age} birthday"
+    return "🎂 #{name}’s birthday"
   end
 
   def set_reminders
