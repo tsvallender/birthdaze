@@ -59,26 +59,35 @@ class Birthdaze < Thor
     @calendar = Icalendar::Calendar.new
     birthdays.each do |birthday|
       @calendar.event do |event|
-        event.dtstart = Icalendar::Values::Date.new(start_date(birthday, Date.today.year))
-        event.dtend = Icalendar::Values::Date.new(end_date(birthday, Date.today.year))
+        event.dtstart = Icalendar::Values::Date.new(start_date(birthday))
+        event.dtend = Icalendar::Values::Date.new(end_date(birthday))
         event.summary = summary(birthday)
+        event.description = description(birthday)
+        event.rrule = "FREQ=YEARLY;"
       end
     end
     @calendar.publish
   end
 
   # Takes a birthday string, with or without a year, and returns a start date
-  def start_date(birthday, year)
+  def start_date(birthday)
+    year = birthday[:birth_year] || Date.today.year
     "#{year}#{birthday[:month]}#{birthday[:day]}"
   end
 
-  def end_date(birthday, year)
-    date = Date.parse(start_date(birthday, year)).next_day
+  def end_date(birthday)
+    date = Date.parse(start_date(birthday)).next_day
     date.strftime("%Y%m%d")
   end
 
   def summary(birthday)
-    return "🎂 #{birthday[:name]}’s birthday"
+    "🎂 #{birthday[:name]}’s birthday"
+  end
+
+  def description(birthday)
+    return "" unless birthday[:birth_year]
+
+    "#{birthday[:name]} was born in #{birthday[:birth_year]}"
   end
 
   def set_reminders
