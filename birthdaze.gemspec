@@ -5,8 +5,9 @@ Gem::Specification.new do |s|
   s.authors     = ["T S Vallender"]
   s.email       = "t@tsvallender.co.uk"
   s.homepage    = "https://git.tsvallender.co.uk/tsv/birthdaze"
-  s.files       = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
+  s.files       = Dir["bin/*", "lib/**/*", "MIT-LICENSE", "README.md"]
   s.license     = "MIT"
+  s.bindir      = "bin"
   s.executables << "birthdaze"
   s.add_dependency "carddav"
   s.add_dependency "icalendar"
