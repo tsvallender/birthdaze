@@ -3,6 +3,7 @@ PATH
   specs:
     birthdaze (0.0.1)
       carddav
+      icalendar
       thor
 
 GEM
@@ -13,6 +14,9 @@ GEM
       nokogiri
       vcardigan
     curb (1.0.5)
+    icalendar (2.10.1)
+      ice_cube (~> 0.16)
+    ice_cube (0.16.4)
     nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     racc (1.7.3)

@@ -8,7 +8,8 @@ Gem::Specification.new do |s|
   s.files       = Dir["lib/**/*", "MIT-LICENSE", "README.md"]
   s.license     = "MIT"
   s.executables << "birthdaze"
-  s.add_dependency "thor"
   s.add_dependency "carddav"
+  s.add_dependency "icalendar"
+  s.add_dependency "thor"
 end
 
