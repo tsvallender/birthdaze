@@ -1,4 +1,5 @@
 require "carddav"
+require "digest"
 require "icalendar"
 require "thor"
 require "yaml"
@@ -58,13 +59,14 @@ class Birthdaze < Thor
 
     @calendar = Icalendar::Calendar.new
     birthdays.each do |birthday|
-      @calendar.event do |event|
-        event.dtstart = Icalendar::Values::Date.new(start_date(birthday))
-        event.dtend = Icalendar::Values::Date.new(end_date(birthday))
-        event.summary = summary(birthday)
-        event.description = description(birthday)
-        event.rrule = "FREQ=YEARLY;"
-      end
+      event = Icalendar::Event.new
+      event.uid = uid(birthday)
+      event.dtstart = Icalendar::Values::Date.new(start_date(birthday))
+      event.dtend = Icalendar::Values::Date.new(end_date(birthday))
+      event.summary = summary(birthday)
+      event.description = description(birthday)
+      event.rrule = "FREQ=YEARLY;"
+      @calendar.add_event(event)
     end
     @calendar.publish
   end
@@ -78,6 +80,13 @@ class Birthdaze < Thor
   def end_date(birthday)
     date = Date.parse(start_date(birthday)).next_day
     date.strftime("%Y%m%d")
+  end
+
+  # Format a deterministic UID for the event so it isn’t re-added every time the calendar is re-generated
+  def uid(birthday)
+    uid = Digest::SHA2.hexdigest("#{birthday[:name]}#{birthday[:day]}#{birthday[:month]}")[0..35]
+    uid[8] = uid[13] = uid[18] = uid[23] = '-'
+    uid
   end
 
   def summary(birthday)
