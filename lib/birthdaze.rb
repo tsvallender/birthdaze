@@ -66,6 +66,12 @@ class Birthdaze < Thor
       event.summary = summary(birthday)
       event.description = description(birthday)
       event.rrule = "FREQ=YEARLY;"
+      event.alarm do |alarm|
+        alarm.action = "DISPLAY"
+        alarm.description = "It is #{birthday[:name]}’s birthday on #{birthday[:day]}/#{birthday[:month]}"
+        alarm.summary = "Birthday reminder: #{birthday[:name]}"
+        alarm.trigger = "-P#{config['days_warning']}D"
+      end if config["days_warning"]
       @calendar.add_event(event)
     end
     @calendar.publish
@@ -99,9 +105,6 @@ class Birthdaze < Thor
     "#{birthday[:name]} was born in #{birthday[:birth_year]}"
   end
 
-  def set_reminders
-  end
-
   def birthday_regex
     # We need the dash for dates which don’t specify a year
     /.*BDAY.*:([\d-]*).*/
@@ -123,7 +126,7 @@ class Birthdaze < Thor
     return nil if date.length < 8
 
     birth_year = date[0..3]
-    return nil if birth_year == "1604" # This is set (for some reason) by DAVx⁵
+    return nil if birth_year == "1604" # This is set by some apps for birth dates without a year
     birth_year
   end
 end

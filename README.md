@@ -22,6 +22,7 @@ username: <username>
 password: <password>
 url: <url>
 ical_output: <path to output file>
+days_warning: <number of days warning>
 ```
 
 ## Usage
