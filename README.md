@@ -8,7 +8,7 @@ from a CardDAV server account.
 ## Installation
 
 ```bash
-gem install ruby
+gem install birthdaze
 ```
 
 Note Birthdaze relies on the `curb` gem, which requires `libcurl4-openssl-dev` to be installed.
